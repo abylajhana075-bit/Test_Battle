@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Battle 🧠</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- AUTH -->
+<section id="authPage" class="auth">
+    <h1>🧠 Logic Battle</h1>
+    <p>Күрделі логикалық тапсырмалар. Рейтингте бірінші бол!</p>
+
+    <div id="registerForm">
+        <input id="regName" placeholder="Ойыншы аты">
+        <input id="regEmail" type="email" placeholder="Email">
+        <input id="regPassword" type="password" placeholder="Құпиясөз">
+        <button class="start-btn" onclick="register()">🚀 Тіркелу</button>
+        <div class="auth-switch">
+            Аккаунтың бар ма?
+            <button onclick="showLogin()">Кіру</button>
+        </div>
+    </div>
+
+    <div id="loginForm" style="display:none">
+        <input id="loginEmail" type="email" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Құпиясөз">
+        <button class="start-btn" onclick="login()">🔐 Кіру</button>
+        <div class="auth-switch">
+            Аккаунтың жоқ па?
+            <button onclick="showRegister()">Тіркелу</button>
+        </div>
+    </div>
+
+    <div id="authError" class="error"></div>
+</section>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+<header>
+    <div class="logo">🧠 Logic Battle</div>
+    <div class="coins">🪙 <span id="coins">0</span></div>
+</header>
+
+<main>
+
+<section id="home" class="page active">
+    <div class="hero">
+        <h1>🧠 Logic Battle</h1>
+        <p>Күрделі логикалық сұрақтар. Уақытпен жарыс. Ойлау қабілетіңді максималды тексер!</p>
+        <button class="start-btn" onclick="startGame()">🚀 Тестті бастау</button>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            📅 Бүгін
+            <b id="todayScore">0</b>
+            <span class="small">ұпай</span>
+        </div>
+        <div class="card">
+            📊 Осы апта
+            <b id="weekScore">0</b>
+            <span class="small">ұпай</span>
+        </div>
+    </div>
+</section>
+
+<section id="game" class="page">
+    <h2 class="title">🧩 Күрделі логика</h2>
+    <div class="question-box">
+        <div style="display:flex;justify-content:space-between">
+            <span id="questionNumber">1 / 10</span>
+            <span>⏱️ Уақыт</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" id="timeBar"></div>
+        </div>
+        <div class="timer" id="timer">45</div>
+        <div class="question" id="question">Сұрақ жүктелуде...</div>
+        <div class="answers" id="answers"></div>
+    </div>
+</section>
+
+<section id="result" class="page">
+    <div class="result">
+        <h2>🎉 Тест аяқталды!</h2>
+        <div class="result-score">
+            <span id="finalScore">0</span>
+        </div>
+        <p>ұпай</p>
+        <br>
+        <div class="stat-line">
+            <span>Дұрыс жауап</span>
+            <strong id="correctCount">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Қате жауап</span>
+            <strong id="wrongCount">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Табылған монета</span>
+            <strong>🪙 <span id="earnedCoins">0</span></strong>
+        </div>
+        <button class="start-btn" onclick="startGame()">🔄 Қайта ойнау</button>
+    </div>
+</section>
+
+<section id="stats" class="page">
+    <h2 class="title">📊 Статистика</h2>
+    <div class="card">
+        <div class="stat-line">
+            <span>Бүгінгі ұпай</span>
+            <strong id="sToday">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Апталық ұпай</span>
+            <strong id="sWeek">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Барлық ойын</span>
+            <strong id="sGames">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Дұрыс жауап</span>
+            <strong id="sCorrect">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Қате жауап</span>
+            <strong id="sWrong">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>Үздік серия</span>
+            <strong>🔥 <span id="sStreak">0</span></strong>
+        </div>
+    </div>
+</section>
+
+<section id="ranking" class="page">
+    <h2 class="title">🏆 Апталық рейтинг</h2>
+    <div id="rankingList">
+        <p class="small">Рейтинг жүктелуде...</p>
+    </div>
+    <div class="card" style="margin-top:20px;text-align:center">
+        🎁 Апта соңында<br><br>
+        🥇 1-орынға <b>1000 🪙</b>
+    </div>
+</section>
+
+<section id="shop" class="page">
+    <h2 class="title">🛒 Дүкен</h2>
+    <div class="shop-grid">
+        <div class="item">
+            <div class="item-icon">👑</div>
+            <b>Алтын тәж</b>
+            <p class="small">Профильге арналған</p>
+            <button class="buy" onclick="buyItem('Алтын тәж',500)">500 🪙</button>
+        </div>
+        <div class="item">
+            <div class="item-icon">🔥</div>
+            <b>Fire рамка</b>
+            <p class="small">Профиль рамкасы</p>
+            <button class="buy" onclick="buyItem('Fire рамка',800)">800 🪙</button>
+        </div>
+        <div class="item">
+            <div class="item-icon">⚡</div>
+            <b>Energy</b>
+            <p class="small">Арнайы белгі</p>
+            <button class="buy" onclick="buyItem('Energy',1000)">1000 🪙</button>
+        </div>
+        <div class="item">
+            <div class="item-icon">💎</div>
+            <b>Diamond</b>
+            <p class="small">VIP зат</p>
+            <button class="buy" onclick="buyItem('Diamond',2000)">2000 🪙</button>
+        </div>
+    </div>
+</section>
+
+<section id="profile" class="page">
+    <h2 class="title">👤 Профиль</h2>
+    <div class="profile">
+        <div class="avatar">🧠</div>
+        <h2 id="profileName">Ойыншы</h2>
+        <p class="small" id="profileEmail"></p>
+        <br>
+        <div class="stat-line">
+            <span>🪙 Монета</span>
+            <strong id="profileCoins">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>🏆 Апталық ұпай</span>
+            <strong id="profileScore">0</strong>
+        </div>
+        <div class="stat-line">
+            <span>🎮 Ойын</span>
+            <strong id="profileGames">0</strong>
+        </div>
+        <button class="logout" onclick="logout()">🚪 Аккаунттан шығу</button>
+    </div>
+</section>
+
+</main>
+
+<nav class="nav">
+    <button class="active" onclick="showPage('home',this)">🏠<br>Басты</button>
+    <button onclick="showPage('stats',this)">📊<br>Статистика</button>
+    <button onclick="showPage('ranking',this)">🏆<br>Рейтинг</button>
+    <button onclick="showPage('shop',this)">🛒<br>Дүкен</button>
+    <button onclick="showPage('profile',this)">👤<br>Профиль</button>
+</nav>
+
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
